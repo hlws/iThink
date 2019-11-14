@@ -1,4 +1,5 @@
 package itat.zttc.user02;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,32 +21,27 @@ public class UserManager {
 		
 	}
 	public void delete(String username) {
-		//先通过用户名找到用户对象
-		User u=this.load(username);
-		if (u==null) {
-			System.out.println("要删除的对象不存在");
-			return;
-			
-		}
-		users.remove(u);
+		users.remove(username);
 		
 		
 	}
 	public void update(User user) {
-		User u=this.load(user.getUsername());
-		if (u==null) {
+		if (!users.containsKey(user.getUsername())) {
 			System.out.println("要更新的用户不存在");
 			return;
 		}
-		u.setAge(user.getAge());
-		u.setNickname(user.getNickname());
-		u.setPassword(user.getPassword());
+		users.put(user.getUsername(), user);
 	}
 	public User load(String username) {
 		return users.get(username);
 	}
 	public List<User> list() {
-		return users;
+		List<User> lu=new ArrayList<User>();
+		Set<String> keys=users.keySet();
+		for(String username:keys){
+			lu.add(users.get(username));
+		}
+		return lu;
 		
 	}
 	public User login(String username,String password) {
